@@ -207,7 +207,3 @@ The system will automatically pick up the new files.
 - The language model used is `gpt-4o-mini`.
 
 ---
-
-## License
-
-ISC
