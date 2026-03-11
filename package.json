@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "ingest": "ts-node src/ingest.ts",
+    "query": "ts-node src/query.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
