@@ -1,18 +1,31 @@
 {
   "name": "rag-knowledge-assistant",
   "version": "1.0.0",
-  "description": "RAG Knowledge Assistant",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "ingest": "ts-node src/ingest.ts"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chanith27/rag-knowledge-assistant.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Chanith27/rag-knowledge-assistant/issues"
+  },
+  "homepage": "https://github.com/Chanith27/rag-knowledge-assistant#readme",
   "dependencies": {
-    "chromadb": "*",
-    "openai": "*"
+    "chromadb": "^3.3.2",
+    "dotenv": "^17.3.1",
+    "openai": "^6.27.0"
   },
   "devDependencies": {
-    "typescript": "*",
-    "ts-node": "*",
-    "@types/node": "*"
+    "@types/node": "^25.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }
