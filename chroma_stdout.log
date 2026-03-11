@@ -1,0 +1,6 @@
+Starting ChromaDB on 127.0.0.1:8000...
+INFO:     127.0.0.1:58105 - "POST /api/v2/tenants/default_tenant/databases/default_database/collections HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58107 - "GET /api/v2/pre-flight-checks HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58105 - "POST /api/v2/tenants/default_tenant/databases/default_database/collections/ddd59ff6-8a47-4126-bda6-2fa4b6527338/add HTTP/1.1" 201 Created
+INFO:     127.0.0.1:58113 - "POST /api/v2/tenants/default_tenant/databases/default_database/collections HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58113 - "POST /api/v2/tenants/default_tenant/databases/default_database/collections/ddd59ff6-8a47-4126-bda6-2fa4b6527338/query HTTP/1.1" 200 OK
