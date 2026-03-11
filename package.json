@@ -6,6 +6,8 @@
   "scripts": {
     "ingest": "ts-node src/ingest.ts",
     "query": "ts-node src/query.ts",
+    "chroma": "python start_chroma.py",
+    "serve": "ts-node src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,8 +23,14 @@
   },
   "homepage": "https://github.com/Chanith27/rag-knowledge-assistant#readme",
   "dependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/multer": "^2.1.0",
     "chromadb": "^3.3.2",
+    "cors": "^2.8.6",
     "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "multer": "^2.1.1",
     "openai": "^6.27.0"
   },
   "devDependencies": {

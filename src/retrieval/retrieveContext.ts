@@ -1,10 +1,18 @@
 import { ChromaClient } from "chromadb";
 import { generateEmbedding } from "../embeddings/openaiEmbedding";
 
-const client = new ChromaClient({ path: "http://localhost:8000" });
+const client = new ChromaClient({ host: "localhost", port: 8000, ssl: false });
+
+const embeddingFunction = {
+  generate: async (texts: string[]) =>
+    Promise.all(texts.map((t) => generateEmbedding(t))),
+};
 
 export async function retrieveContext(question: string): Promise<string[]> {
-  const collection = await client.getOrCreateCollection({ name: "knowledge_base" });
+  const collection = await client.getOrCreateCollection({
+    name: "knowledge_base",
+    embeddingFunction,
+  });
 
   const questionEmbedding = await generateEmbedding(question);
 

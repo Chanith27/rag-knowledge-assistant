@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Knowledge Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="bg-overlay"></div>
+    <div class="container">
+        <header>
+            <h1>Knowledge <span>Assistant</span></h1>
+            <p>Upload a document and start a conversation with your data.</p>
+        </header>
+
+        <main>
+            <section class="upload-section">
+                <div class="upload-card">
+                    <div class="upload-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 16.2091 19.2091 18 17 18H7C4.79086 18 3 16.2091 3 14C3 11.7909 4.79086 10 7 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12V15M12 12L10 14M12 12L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <label for="file-upload" class="custom-file-upload">
+                        Choose Document
+                    </label>
+                    <input id="file-upload" type="file" accept=".txt" />
+                    <span id="file-name">No file selected</span>
+                    <button id="upload-btn" class="primary-btn">Index Document</button>
+                    <div id="upload-status"></div>
+                </div>
+            </section>
+
+            <section class="chat-section">
+                <div class="chat-window" id="chat-window">
+                    <div class="message system">
+                        Hello! Upload a text file and ask me anything about it.
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="user-input" placeholder="Ask a question..." disabled>
+                    <button id="send-btn" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 2L11 13M22 2L15 22L11 13M11 13L2 9L22 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
