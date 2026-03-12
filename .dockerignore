@@ -1,0 +1,7 @@
+node_modules
+.env
+.git
+test-pdf*.js
+chroma_db
+chroma_stdout.log
+docs

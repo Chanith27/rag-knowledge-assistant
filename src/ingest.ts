@@ -1,10 +1,9 @@
 import { loadDocuments } from "./loaders/documentLoader";
 import { chunkText } from "./utils/chunker";
 import { generateEmbedding } from "./embeddings/openaiEmbedding";
-import { ChromaClient } from "chromadb";
+import { chromaClient } from "./utils/chromaClient";
 
 const docsPath = "./docs";
-const client = new ChromaClient({ host: "localhost", port: 8000, ssl: false });
 
 const embeddingFunction = {
   generate: async (texts: string[]) =>
@@ -12,7 +11,7 @@ const embeddingFunction = {
 };
 
 async function main() {
-  const documents = loadDocuments(docsPath);
+  const documents = await loadDocuments(docsPath);
   console.log(`Documents Loaded: ${documents.length}`);
 
   const allChunks: string[] = [];
@@ -29,7 +28,7 @@ async function main() {
   }
   console.log(`Embeddings Generated: ${embeddings.length}`);
 
-  const collection = await client.getOrCreateCollection({
+  const collection = await chromaClient.getOrCreateCollection({
     name: "knowledge_base",
     embeddingFunction,
   });
