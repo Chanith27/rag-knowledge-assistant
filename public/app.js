@@ -34,7 +34,7 @@ uploadBtn.onclick = async () => {
         const data = await response.json();
 
         if (response.ok) {
-            uploadStatus.textContent = '✅ Document ready!';
+            uploadStatus.textContent = 'Document ready!';
             uploadStatus.style.color = '#10B981';
             userInput.disabled = false;
             sendBtn.disabled = false;
@@ -43,7 +43,7 @@ uploadBtn.onclick = async () => {
             throw new Error(data.error || 'Upload failed');
         }
     } catch (error) {
-        uploadStatus.textContent = '❌ Error: ' + error.message;
+        uploadStatus.textContent = 'Error: ' + error.message;
         uploadStatus.style.color = '#EF4444';
     } finally {
         isUploading = false;

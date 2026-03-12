@@ -24,7 +24,7 @@
                     <label for="file-upload" class="custom-file-upload">
                         Choose Document
                     </label>
-                    <input id="file-upload" type="file" accept=".txt" />
+                    <input id="file-upload" type="file" accept=".txt,.pdf" />
                     <span id="file-name">No file selected</span>
                     <button id="upload-btn" class="primary-btn">Index Document</button>
                     <div id="upload-status"></div>
@@ -33,9 +33,7 @@
 
             <section class="chat-section">
                 <div class="chat-window" id="chat-window">
-                    <div class="message system">
-                        Hello! Upload a text file and ask me anything about it.
-                    </div>
+                        Hello! Upload a text or PDF file and ask me anything about it.
                 </div>
                 <div class="chat-input-area">
                     <input type="text" id="user-input" placeholder="Ask a question..." disabled>

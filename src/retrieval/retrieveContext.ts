@@ -1,7 +1,5 @@
-import { ChromaClient } from "chromadb";
+import { chromaClient } from "../utils/chromaClient";
 import { generateEmbedding } from "../embeddings/openaiEmbedding";
-
-const client = new ChromaClient({ host: "localhost", port: 8000, ssl: false });
 
 const embeddingFunction = {
   generate: async (texts: string[]) =>
@@ -9,7 +7,7 @@ const embeddingFunction = {
 };
 
 export async function retrieveContext(question: string): Promise<string[]> {
-  const collection = await client.getOrCreateCollection({
+  const collection = await chromaClient.getOrCreateCollection({
     name: "knowledge_base",
     embeddingFunction,
   });

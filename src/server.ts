@@ -4,9 +4,10 @@ import cors from "cors";
 import path from "path";
 import fs from "fs";
 import { ragPipeline } from "./rag";
-import { ChromaClient } from "chromadb";
+import { chromaClient } from "./utils/chromaClient";
 import { generateEmbedding } from "./embeddings/openaiEmbedding";
 import { chunkText } from "./utils/chunker";
+import { loadByFilePath } from "./loaders/documentLoader";
 
 const app = express();
 const port = 3001;
@@ -32,7 +33,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-const client = new ChromaClient({ host: "localhost", port: 8000, ssl: false });
 
 const embeddingFunction = {
   generate: async (texts: string[]) =>
@@ -47,14 +47,19 @@ app.post("/upload", upload.single("file"), async (req, res) => {
     }
 
     const filePath = req.file.path;
-    const content = fs.readFileSync(filePath, "utf-8");
+    const content = await loadByFilePath(filePath);
+    
+    if (!content) {
+      return res.status(400).json({ error: "Unsupported file type or empty file" });
+    }
+
     const chunks = chunkText(content);
     
     const embeddings = await Promise.all(
       chunks.map((chunk) => generateEmbedding(chunk))
     );
 
-    const collection = await client.getOrCreateCollection({
+    const collection = await chromaClient.getOrCreateCollection({
       name: "knowledge_base",
       embeddingFunction,
     });
