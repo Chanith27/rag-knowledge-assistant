@@ -1,24 +1,86 @@
 # RAG Knowledge Assistant
 
-A Retrieval-Augmented Generation (RAG) system built with TypeScript that allows you to ask natural language questions and receive answers grounded in your own document knowledge base. The system loads text documents, generates vector embeddings, stores them in ChromaDB, and uses OpenAI to produce accurate, context-aware answers.
+A professional Retrieval-Augmented Generation (RAG) system built with TypeScript and Node.js. This application allows users to upload documents (PDF and TXT), index them into a vector database, and perform natural language queries to receive context-aware answers grounded in the uploaded data.
 
 ---
 
-## How It Works
+## Features
 
-The system follows a two-phase pipeline.
+- **Multi-format Support**: Process both `.txt` and `.pdf` documents.
+- **Web Interface**: Modern, responsive UI for uploading documents and chatting.
+- **REST API**: Robust Express.js backend for integration with other services.
+- **Vector Storage**: Powered by ChromaDB for efficient similarity search.
+- **Smart Chunking**: Optimized text chunking for better retrieval accuracy.
+- **AI Powered**: Uses OpenAI's `text-embedding-3-small` and `gpt-4o-mini` for embeddings and generation.
+- **Containerization**: Fully containerized for easy deployment and local development.
 
-**Ingestion Phase** — run once to build the knowledge base:
+---
 
+## Quick Start (Docker)
+
+The fastest way to get started is using Docker Compose.
+
+### 1. Configuration
+```bash
+git clone https://github.com/Chanith27/rag-knowledge-assistant.git
+cd rag-knowledge-assistant
 ```
-Text Documents --> Chunking --> Embedding --> ChromaDB Storage
+Create a `.env` file and add your OpenAI Key:
+```env
+OPENAI_API_KEY=your_key_here
 ```
 
-**Query Phase** — run whenever you want an answer:
+### 2. Deployment
+```bash
+docker-compose up --build
+```
 
+### 3. Access
+Navigate to `http://localhost:3001` in your browser.
+
+---
+
+## Manual Installation
+
+If you prefer to run the project without Docker:
+
+### Prerequisites
+- **Node.js**: v20 or higher
+- **Python**: v3.10+ (for ChromaDB server)
+- **OpenAI API Key**
+
+### Setup
+1. **Install Dependencies**
+   ```bash
+   npm install
+   ```
+2. **Setup ChromaDB**
+   ```bash
+   pip install chromadb
+   ```
+3. **Environment Variables**
+   Create a `.env` file:
+   ```env
+   OPENAI_API_KEY=your_openai_api_key_here
+   ```
+
+---
+
+## Running the Application
+
+### 1. Start Vector Database
+Open a terminal and run:
+```bash
+npm run chroma
 ```
-User Question --> Embedding --> ChromaDB Similarity Search --> OpenAI LLM --> Answer
+*This starts ChromaDB on port 8000 with persistence in `./chroma_db`.*
+
+### 2. Start the Server
+In a new terminal, run:
+```bash
+npm run serve
 ```
+The server will start at `http://localhost:3001`.
 
 ---
 
@@ -26,184 +88,50 @@ User Question --> Embedding --> ChromaDB Similarity Search --> OpenAI LLM --> An
 
 ```
 rag-knowledge-assistant/
-│
-├── docs/                        # Your knowledge documents (.txt files)
-│   ├── ai.txt
-│   ├── ml.txt
-│   └── dl.txt
-│
+├── docs/                # Uploaded/Processed documents
+├── public/              # Frontend web interface (HTML/CSS/JS)
 ├── src/
-│   ├── loaders/
-│   │   └── documentLoader.ts    # Reads .txt files from the docs folder
-│   │
-│   ├── utils/
-│   │   └── chunker.ts           # Splits documents into fixed-size chunks
-│   │
-│   ├── embeddings/
-│   │   └── openaiEmbedding.ts   # Generates vector embeddings using OpenAI
-│   │
-│   ├── vectorstore/
-│   │   └── chromaClient.ts      # Stores and retrieves embeddings from ChromaDB
-│   │
-│   ├── retrieval/
-│   │   └── retrieveContext.ts   # Performs similarity search in ChromaDB
-│   │
-│   ├── llm/
-│   │   └── generateAnswer.ts    # Sends context and question to OpenAI Chat API
-│   │
-│   ├── ingest.ts                # Entry point for the ingestion pipeline
-│   ├── query.ts                 # Entry point for the query pipeline
-│   └── rag.ts                   # Orchestrates the full RAG pipeline
-│
-├── .env                         # API keys (not committed to git)
-├── .gitignore
-├── package.json
-├── tsconfig.json
-└── README.md
+│   ├── embeddings/      # OpenAI Embedding integration
+│   ├── loaders/         # PDF and Text file processors
+│   ├── utils/           # Text chunker and Chroma client
+│   ├── retrieval/       # Similarity search logic
+│   ├── llm/             # OpenAI Chat completion logic
+│   ├── server.ts        # Express API server
+│   ├── ingest.ts        # CLI Ingestion script
+│   └── query.ts         # CLI Query script
+├── Dockerfile           # Web app container definition
+└── docker-compose.yml   # Multi-container orchestration
 ```
 
 ---
 
-## Prerequisites
+## API Endpoints
 
-Make sure you have the following installed before getting started:
-
-- Node.js (v18 or higher)
-- Python (v3.10 or higher)
-- An OpenAI API key
-
----
-
-## Installation
-
-**1. Clone the repository**
-
-```bash
-git clone https://github.com/Chanith27/rag-knowledge-assistant.git
-cd rag-knowledge-assistant
-```
-
-**2. Install Node dependencies**
-
-```bash
-npm install
-```
-
-**3. Install ChromaDB**
-
-```bash
-pip install chromadb
-```
-
-**4. Set up environment variables**
-
-Create a `.env` file in the root of the project:
-
-```
-OPENAI_API_KEY=your-openai-api-key-here
-```
-
----
-
-## Running the Project
-
-### Step 1 — Start ChromaDB
-
-Open a dedicated terminal and run:
-
-```bash
-python -m chromadb.cli.cli run --path ./chroma_db
-```
-
-Keep this terminal running throughout your session.
-
-### Step 2 — Ingest Your Documents
-
-In a second terminal, run the ingestion pipeline:
-
-```bash
-npm run ingest
-```
-
-This will load all `.txt` files from the `docs/` folder, chunk them, generate embeddings, and store everything in ChromaDB.
-
-Expected output:
-
-```
-Documents Loaded: 3
-Chunks Created: 3
-Embeddings Generated: 3
-Stored in ChromaDB: 3
-```
-
-You only need to run this once, or again when you add or update documents.
-
-### Step 3 — Ask a Question
-
-```bash
-npm run query
-```
-
-Expected output:
-
-```
-Question: What is Machine Learning?
-
-Answer:
-Machine Learning is a branch of Artificial Intelligence that enables
-systems to learn patterns from data and improve performance without
-being explicitly programmed.
-```
-
----
-
-## Adding Your Own Documents
-
-Place any `.txt` file inside the `docs/` folder, then re-run the ingestion:
-
-```bash
-npm run ingest
-```
-
-The system will automatically pick up the new files.
-
----
-
-## Available Scripts
-
-| Script | Command | Description |
+| Method | Endpoint | Description |
 |---|---|---|
-| Ingest | `npm run ingest` | Load, chunk, embed and store documents |
-| Query | `npm run query` | Ask a question and get an answer |
+| `POST` | `/upload` | Upload and index a `.txt` or `.pdf` file |
+| `POST` | `/query` | Ask a question based on indexed knowledge |
 
 ---
 
 ## Technology Stack
 
-| Technology | Purpose |
-|---|---|
-| TypeScript | Application language |
-| Node.js | Runtime environment |
-| OpenAI API | Embeddings and answer generation |
-| ChromaDB | Local vector database |
-| ts-node | TypeScript execution |
-| dotenv | Environment variable management |
+- **Backend**: Node.js, Express, TypeScript
+- **Frontend**: Vanilla JS, Modern CSS (Glassmorphism)
+- **Database**: ChromaDB (Vector Store)
+- **AI**: OpenAI API (Embeddings & Completion)
+- **DevOps**: Docker, Docker Compose
 
 ---
 
-## Environment Variables
+## License
 
-| Variable | Description |
-|---|---|
-| `OPENAI_API_KEY` | Your OpenAI API key from platform.openai.com |
+This project is licensed under the ISC License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
-## Notes
+## Contributing
 
-- The `chroma_db/` folder is excluded from version control via `.gitignore`. Each developer runs ChromaDB locally.
-- The `.env` file is excluded from version control. Never commit your API keys.
-- The embedding model used is `text-embedding-3-small`.
-- The language model used is `gpt-4o-mini`.
+Contributions are welcome. Please feel free to submit a Pull Request.
 
 ---
