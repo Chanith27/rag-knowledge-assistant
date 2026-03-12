@@ -198,12 +198,3 @@ The system will automatically pick up the new files.
 | `OPENAI_API_KEY` | Your OpenAI API key from platform.openai.com |
 
 ---
-
-## Notes
-
-- The `chroma_db/` folder is excluded from version control via `.gitignore`. Each developer runs ChromaDB locally.
-- The `.env` file is excluded from version control. Never commit your API keys.
-- The embedding model used is `text-embedding-3-small`.
-- The language model used is `gpt-4o-mini`.
-
----
